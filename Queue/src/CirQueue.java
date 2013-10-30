@@ -128,11 +128,17 @@ public class CirQueue<T> implements Queue<T> {
 	}
 
 	public String toString() {
-		String list = null;
+		String list = "[";
 		Node current = rear.getLink();
-		while(current!=rear) {
-			list += current.getData() + ",";
-		}
+		do {
+			if (current==rear) {
+				list += current.getData() + "]";
+			} else {
+				list += current.getData() + ", ";	
+			}
+			current = current.getLink();
+		} while(current!=rear.getLink());
+
 		return list;
 	}
 
