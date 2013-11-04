@@ -5,7 +5,7 @@ import java.util.Queue;
 
 public class CirQueue<T> implements Queue<T> {
 
-	Node rear;
+	Node rear, current, previous;
 	
 	public CirQueue() {
 		rear = null;
@@ -23,9 +23,21 @@ public class CirQueue<T> implements Queue<T> {
 	}
 
 	@Override
-	public boolean contains(Object arg0) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean contains(Object element) {
+		boolean found=false;
+		current = rear.getLink();
+		previous = rear;
+		do {
+			if (current.getData().equals(element)) {
+				found = true;
+				break;
+			} else if (current==rear) {
+				found = false;
+			}
+			previous = current;
+			current = current.getLink();
+		} while(current!=rear.getLink());
+		return found;
 	}
 
 	@Override
@@ -47,9 +59,21 @@ public class CirQueue<T> implements Queue<T> {
 	}
 
 	@Override
-	public boolean remove(Object arg0) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean remove(Object element) {
+		boolean found = true;
+		if(contains(element)) {
+			
+			if(current == rear){
+			//last
+				rear = previous;				
+			}
+			 // between
+				previous.setLink(current.getLink());
+			
+		} else {
+			found = false;
+		}
+		return found;
 	}
 
 	@Override
@@ -129,7 +153,7 @@ public class CirQueue<T> implements Queue<T> {
 
 	public String toString() {
 		String list = "[";
-		Node current = rear.getLink();
+		current = rear.getLink();
 		do {
 			if (current==rear) {
 				list += current.getData() + "]";
